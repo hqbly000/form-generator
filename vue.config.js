@@ -16,9 +16,11 @@ function resolve(dir) {
 }
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/form-generator/'
-    : '/',
+  // publicPath: process.env.NODE_ENV === 'production'
+  //   ? '/form-generator/'
+  //   : '/',
+  publicPath : "./",
+  outputDir : "D:/Dev/DevCode/itrial-front-end/src/bfs-generator",
   pages: {
     index: {
       entry: 'src/views/index/main.js',

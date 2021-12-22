@@ -44,6 +44,9 @@
 
     <div class="center-board">
       <div class="action-bar">
+        <el-button icon="el-icon-arrow-right" type="text" @click="nextPage">
+          下一步
+        </el-button>
         <el-button icon="el-icon-video-play" type="text" @click="run">
           运行
         </el-button>
@@ -460,6 +463,16 @@ export default {
       this.drawingList = deepClone(data.fields)
       delete data.fields
       this.formConf = data
+    },
+    nextPage() {
+      // TODO 去保存数据
+      const submitData = {
+        fields: deepClone(this.drawingList),
+        ...this.formConf
+      }
+      console.log(submitData)
+      sessionStorage.setItem('bfs-formData-cache', JSON.stringify(submitData))
+      // window.parent.nextPage({ index: 3 })
     }
   }
 }
