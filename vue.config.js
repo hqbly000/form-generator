@@ -16,6 +16,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  lintOnSave: false, //关闭ES lint检查
   // publicPath: process.env.NODE_ENV === 'production'
   //   ? '/form-generator/'
   //   : '/',

@@ -3,13 +3,14 @@ import App from './App.vue'
 import router from '@/router'
 import '@/styles/index.scss'
 import '@/icons'
-import axios from 'axios'
+import axInst from '@/utils/request.js'
+// import axios from '@/utils/axios'
 import Tinymce from '@/components/tinymce/index.vue'
 
 Vue.component('tinymce', Tinymce)
 
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axInst
 
 new Vue({
   router,

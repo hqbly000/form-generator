@@ -3,10 +3,12 @@
     <div class="left-board">
       <div class="logo-wrapper">
         <div class="logo">
+        <!--
           <img :src="logo" alt="logo"> Form Generator
           <a class="github" href="https://github.com/JakHuang/form-generator" target="_blank">
             <img src="https://github.githubassets.com/pinned-octocat.svg" alt>
           </a>
+          -->
         </div>
       </div>
       <el-scrollbar class="left-scrollbar">
@@ -53,12 +55,14 @@
         <el-button icon="el-icon-view" type="text" @click="showJson">
           查看json
         </el-button>
+        <!--
         <el-button icon="el-icon-download" type="text" @click="download">
           导出vue文件
         </el-button>
         <el-button class="copy-btn-main" icon="el-icon-document-copy" type="text" @click="copy">
           复制代码
         </el-button>
+        -->
         <el-button class="delete-btn" icon="el-icon-delete" type="text" @click="empty">
           清空
         </el-button>
@@ -470,9 +474,49 @@ export default {
         fields: deepClone(this.drawingList),
         ...this.formConf
       }
-      console.log(submitData)
-      sessionStorage.setItem('bfs-formData-cache', JSON.stringify(submitData))
-      // window.parent.nextPage({ index: 3 })
+      const columns = submitData.fields.map(field => {
+        return {
+          'allowedNull': 1,
+          'columnLabel': field.__config__.label,
+          'columnName': field.__vModel__,
+          'columnType': '',
+          'dateFormat': '',
+          'defaultValue': '',
+          'dictSource': 0,
+          'dictType': '',
+          'dictValue': '',
+          'htmlType': '',
+          'id': 0,
+          'list': 0,
+          'maxLength': 0,
+          'maxValue': 0,
+          'minLength': 0,
+          'minValue': 0,
+          'multFile': 0,
+          'multSelect': '',
+          'orderNo': 0,
+          'processDefId': 0,
+          'query': 0,
+          'remark': '',
+          'updatedBy': '',
+          'updatedTime': ''
+        }
+      })
+      // submitData.columns = columns;
+      const formConfig = JSON.stringify(submitData);
+      console.log(formConfig)
+      // sessionStorage.setItem('bfs-formData-cache', JSON.stringify(submitData));
+      this.$axios.postJSON(`http://localhost:8088/bfs-backend/api/bfsProcessDefinition/updateForm`, {
+        id :sessionStorage.getItem("bfs-flow-id"),
+        formConfig,
+        processFromDefinitions :columns
+      }).then(res => {
+        if(res.status == 'success'){
+          window.parent.nextPage({ index: 3 })
+        }else {
+          console.log(res.msg);
+        }
+      }).catch(err => console.log(err));
     }
   }
 }

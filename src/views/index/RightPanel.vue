@@ -43,6 +43,7 @@
           <el-form-item v-if="activeData.placeholder!==undefined" label="占位提示">
             <el-input v-model="activeData.placeholder" placeholder="请输入占位提示" @input="changeRenderKey" />
           </el-form-item>
+          <!--
           <el-form-item v-if="activeData['start-placeholder']!==undefined" label="开始占位">
             <el-input v-model="activeData['start-placeholder']" placeholder="请输入占位提示" />
           </el-form-item>
@@ -52,6 +53,7 @@
           <el-form-item v-if="activeData.__config__.span!==undefined" label="表单栅格">
             <el-slider v-model="activeData.__config__.span" :max="24" :min="1" :marks="{12:''}" @change="spanChange" />
           </el-form-item>
+          -->
           <el-form-item v-if="activeData.__config__.layout==='rowFormItem'&&activeData.gutter!==undefined" label="栅格间隔">
             <el-input-number v-model="activeData.gutter" :min="0" placeholder="栅格间隔" />
           </el-form-item>
@@ -107,12 +109,13 @@
               @input="$set(activeData, 'max', $event?$event:undefined)"
             />
           </el-form-item>
+          <!--
           <el-form-item v-if="activeData.__slot__&&activeData.__slot__.prepend!==undefined" label="前缀">
             <el-input v-model="activeData.__slot__.prepend" placeholder="请输入前缀" />
           </el-form-item>
           <el-form-item v-if="activeData.__slot__&&activeData.__slot__.append!==undefined" label="后缀">
             <el-input v-model="activeData.__slot__.append" placeholder="请输入后缀" />
-          </el-form-item>
+          </el-form-item>         
           <el-form-item v-if="activeData['prefix-icon']!==undefined" label="前图标">
             <el-input v-model="activeData['prefix-icon']" placeholder="请输入前图标名称">
               <el-button slot="append" icon="el-icon-thumb" @click="openIconsDialog('prefix-icon')">
@@ -137,6 +140,7 @@
               </el-button>
             </el-input>
           </el-form-item>
+           -->
           <el-form-item v-if="activeData.__config__.tag === 'el-cascader'" label="选项分隔符">
             <el-input v-model="activeData.separator" placeholder="请输入选项分隔符" />
           </el-form-item>
