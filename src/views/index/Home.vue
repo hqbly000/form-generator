@@ -46,15 +46,15 @@
 
     <div class="center-board">
       <div class="action-bar">
-        <el-button icon="el-icon-arrow-right" type="text" @click="nextPage">
+        <el-button icon="el-icon-video-play" type="text" @click="nextPage">
           下一步
         </el-button>
-        <el-button icon="el-icon-video-play" type="text" @click="run">
+        <!-- <el-button icon="el-icon-video-play" type="text" @click="run">
           运行
-        </el-button>
-        <el-button icon="el-icon-view" type="text" @click="showJson">
+        </el-button> -->
+        <!-- <el-button icon="el-icon-view" type="text" @click="showJson">
           查看json
-        </el-button>
+        </el-button> -->
         <!--
         <el-button icon="el-icon-download" type="text" @click="download">
           导出vue文件
@@ -504,19 +504,19 @@ export default {
       })
       // submitData.columns = columns;
       const formConfig = JSON.stringify(submitData);
-      console.log(formConfig)
-      // sessionStorage.setItem('bfs-formData-cache', JSON.stringify(submitData));
       this.$axios.postJSON(`http://localhost:8088/bfs-backend/api/bfsProcessDefinition/updateForm`, {
         id :sessionStorage.getItem("bfs-flow-id"),
         formConfig,
         processFromDefinitions :columns
       }).then(res => {
         if(res.status == 'success'){
+          sessionStorage.setItem('BFS_FLOW_PREVIEW_FORM',formConfig)
           window.parent.nextPage({ index: 3 })
         }else {
           console.log(res.msg);
         }
       }).catch(err => console.log(err));
+      // sessionStorage.setItem('BFS_FLOW_PREVIEW_FORM',formConfig)
     }
   }
 }
