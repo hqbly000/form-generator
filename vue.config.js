@@ -21,7 +21,8 @@ module.exports = {
   //   ? '/form-generator/'
   //   : '/',
   publicPath : "./",
-  outputDir : "D:/Dev/DevCode/itrial-front-end/src/bfs-generator",
+  // outputDir : "D:/Dev/DevCode/itrial-front-end/src/bfs-generator",
+  outputDir : "C:/Dev/Code/iTrals/itrial-front-end/src/bfs-generator",
   pages: {
     index: {
       entry: 'src/views/index/main.js',

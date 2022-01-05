@@ -1,6 +1,7 @@
 <template>
   <div class="test-form">
-    <parser :form-conf="formConf" @submit="sumbitForm" />
+    <parser :form-conf="formConf" @submit="sumbitForm" ref="praser"/>
+    <el-button type="primary" @click="getFormData">获取数据</el-button>
   </div>
 </template>
 
@@ -110,7 +111,8 @@ export default {
   data() {
     return {
       key2: +new Date(),
-      formConf: {}
+      formConf: {},
+      sourceConf : {}
     };
   },
   computed: {},
@@ -134,6 +136,7 @@ export default {
         });
         formConfig["fields"] = arr;
         formConfig["buildRules"] = false;
+        this.sourceConf = fields;
         this.formConf = formConfig;
       }
       //this.fillFormData(this.formConf, data)
@@ -142,9 +145,29 @@ export default {
     }, 100);
   },
   methods: {
-    sumbitForm(data) {
-      
-      console.log("提交数据：", data);
+    sumbitForm(){
+
+    },
+    getFormData(){
+      const formData = this.$refs['praser'].getFormData();
+      let data  =this.sourceConf.map(conf => {
+        let fieldName = conf.__vModel__;
+        let fieldVisible = formData [fieldName + "Visible"] ? "1" : "0";
+        let fieldEdit = formData [fieldName + "Edit"] ? "1" : "0";
+        return {
+					"allowedEdit": fieldEdit,
+					"allowedNull": "",
+					"allowedSee": fieldVisible,
+					"columnId": 0,
+					"columnLabel": conf.__config__.label,
+					"columnName": fieldName,
+					"defaultValue": "",
+					"formSettingId": 0,
+					"id": 0,
+					"remark": ""
+				}
+      })
+      parent.store.setData("processFormColumnSettings",data);
     }
   }
 };
