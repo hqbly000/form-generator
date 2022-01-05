@@ -18,19 +18,33 @@ const layouts = {
   colFormItem(h, scheme) {
     const config = scheme.__config__
     const listeners = buildListeners.call(this, scheme)
-
     let labelWidth = config.labelWidth ? `${config.labelWidth}px` : null
     if (config.showLabel === false) labelWidth = '0'
-    return (
-      <el-col span={config.span}>
-        <el-form-item label-width={labelWidth} prop={scheme.__vModel__}
-          label={config.showLabel ? config.label : ''}>
-          <render conf={scheme} on={listeners} />
-        </el-form-item>
-      </el-col>
+    let fieldVisible = `${scheme.__vModel__}Visible`
+    let fieldEdit = `${scheme.__vModel__}Edit`
+    console.log(fieldVisible)
+    return (  
+      <el-form-item>
+        <el-col span={14}>
+          <el-form-item label-width={labelWidth} prop={scheme.__vModel__}
+            label={config.showLabel ? config.label : ''}>
+            <render conf={scheme} on={listeners} />
+          </el-form-item>
+        </el-col>
+        <el-col span={5}>
+          <el-form-item label-width={labelWidth} prop={fieldVisible}>
+           是否可见 <el-switch v-model={this.formData[fieldVisible]} active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"> </el-switch> 
+          </el-form-item>
+        </el-col>
+        <el-col span={5}>
+          <el-form-item label-width={labelWidth} prop={fieldEdit}>
+           是否可编辑 <el-switch v-model={this.formData[fieldEdit]} active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"> </el-switch> 
+          </el-form-item>
+        </el-col>
+      </el-form-item>
     )
   },
-  rowFormItem(h, scheme) {    
+  rowFormItem(h, scheme) {
     let child = renderChildren.apply(this, arguments)
     if (scheme.type === 'flex') {
       child = <el-row type={scheme.type} justify={scheme.justify} align={scheme.align}>
@@ -49,6 +63,7 @@ const layouts = {
 
 function renderFrom(h) {
   const { formConfCopy } = this
+
   return (
     <el-row gutter={formConfCopy.gutter}>
       <el-form
@@ -98,7 +113,7 @@ function renderChildren(h, scheme) {
 
 function setValue(event, config, scheme) {
   this.$set(config, 'defaultValue', event)
-  this.$set(this[this.formConf.formModel], scheme.__vModel__, event)
+  this.$set(this.formData, scheme.__vModel__, event)
 }
 
 function buildListeners(scheme) {
@@ -129,34 +144,38 @@ export default {
   data() {
     const data = {
       formConfCopy: deepClone(this.formConf),
-      [this.formConf.formModel]: {},
-      [this.formConf.formRules]: {}
+      formData: {},
+      rules: {},
+      model1 : 0
     }
     if(Object.keys(this.formConf).length > 0){
-      this.initFormData(data.formConfCopy.fields, data[this.formConf.formModel])
-      this.buildRules(data.formConfCopy.fields, data[this.formConf.formRules])
+      this.initFormData(data.formConfCopy.fields, data["formData"])
+      this.buildRules(data.formConfCopy.fields, data["rules"])
     }
     return data
   },
   watch: {
     formConf(newConfig){
       this.formConfCopy = deepClone(newConfig);
-      this[this.formConf.formModel] =  {};
-      this[this.formConf.formRules] =  {};
-      this.initFormData(this.formConfCopy.fields, this[this.formConf.formModel])
-      this.buildRules(this.formConfCopy.fields, this[this.formConf.formRules])
+      this.formData =  {};
+      this.rules =  {};
+      this.initFormData(this.formConfCopy.fields, this.formData)
+      this.buildRules(this.formConfCopy.fields, this.rules)
     }
-  },  
+  },
   methods: {
     initFormData(componentList, formData) {
       componentList.forEach(cur => {
         const config = cur.__config__
-        if (cur.__vModel__) formData[cur.__vModel__] = config.defaultValue
+        if (cur.__vModel__) {
+          formData[cur.__vModel__] = config.defaultValue
+          formData[cur.__vModel__ + "Visible"] = 0
+          formData[cur.__vModel__ + "Edit"] = 0
+        }
         if (config.children) this.initFormData(config.children, formData)
       })
     },
     buildRules(componentList, rules) {
-      return false; //暂不处理规则问题
       componentList.forEach(cur => {
         const config = cur.__config__
         if (Array.isArray(config.regList)) {
@@ -184,10 +203,9 @@ export default {
     },
     submitForm() {
       this.$refs[this.formConf.formRef].validate(valid => {
-        console.log(valid)
         if (!valid) return false
         // 触发sumit事件
-        this.$emit('submit', this[this.formConf.formModel])
+        this.$emit('submit', this.formData)
         return true
       })
     }
