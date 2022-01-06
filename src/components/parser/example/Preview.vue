@@ -1,12 +1,14 @@
 <template>
   <div class="test-form">
     <parser :form-conf="formConf" @submit="sumbitForm" ref="praser"/>
-    <el-button type="primary" @click="getFormData">获取数据</el-button>
+    <!-- <el-button type="primary" @click="getFormData">获取数据</el-button> -->
   </div>
 </template>
 
 <script>
 import Parser from "../Parser";
+
+
 
 /**
  * 获得指定范围内的随机数字
@@ -18,6 +20,7 @@ const getRandomNum = (min, max) => {
   // min最小值，max最大值
   return +new Date() + (Math.floor(Math.random() * (max - min)) + min);
 };
+
 
 const getRow = () => {
   return {
@@ -119,6 +122,13 @@ export default {
   watch: {},
   created() {},
   mounted() {
+    let that = this;
+    window.addEventListener("message", function(e){
+      if(e.data === 'getFormData'){
+        let res = that.getFormData();
+        res && e.source.postMessage("previewSubmit",e.origin)
+      }
+    })
     // 表单数据回填，模拟异步请求场景
     setTimeout(() => {
       // 请求回来的表单数据
@@ -142,7 +152,7 @@ export default {
       //this.fillFormData(this.formConf, data)
       // 更新表单
       this.key2 = +new Date();
-    }, 100);
+    }, 50);
   },
   methods: {
     sumbitForm(){
@@ -168,6 +178,7 @@ export default {
 				}
       })
       parent.store.setData("processFormColumnSettings",data);
+      return true;
     }
   }
 };
