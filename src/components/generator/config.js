@@ -27,9 +27,12 @@ export const inputComponents = [
       required: true,
       layout: 'colFormItem',
       span: 24,
-      document: 'https://element.eleme.cn/#/zh-CN/component/input',
+      // document: 'https://element.eleme.cn/#/zh-CN/component/input',
+      document: '',
       // 正则校验规则
-      regList: []
+      regList: [],
+      showDictSource: true,
+      dictSource: '0'
     },
     // 组件的插槽属性
     __slot__: {
@@ -45,7 +48,7 @@ export const inputComponents = [
     maxlength: null,
     'show-word-limit': false,
     readonly: false,
-    disabled: false
+    disabled: false, 
   },
   {
     __config__: {
@@ -60,7 +63,8 @@ export const inputComponents = [
       span: 24,
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/input'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/input'
+      document: ''
     },
     type: 'textarea',
     placeholder: '请输入',
@@ -87,7 +91,8 @@ export const inputComponents = [
       span: 24,
       required: true,
       regList: [],
-      document: 'https://element.eleme.cn/#/zh-CN/component/input'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/input'
+      document: ''
     },
     __slot__: {
       prepend: '',
@@ -104,30 +109,30 @@ export const inputComponents = [
     readonly: false,
     disabled: false
   },
-  {
-    __config__: {
-      label: '计数器',
-      showLabel: true,
-      changeTag: true,
-      labelWidth: null,
-      tag: 'el-input-number',
-      tagIcon: 'number',
-      defaultValue: undefined,
-      span: 24,
-      layout: 'colFormItem',
-      required: true,
-      regList: [],
-      document: 'https://element.eleme.cn/#/zh-CN/component/input-number'
-    },
-    placeholder: '',
-    min: undefined,
-    max: undefined,
-    step: 1,
-    'step-strictly': false,
-    precision: undefined,
-    'controls-position': '',
-    disabled: false
-  },
+  // {
+  //   __config__: {
+  //     label: '计数器',
+  //     showLabel: true,
+  //     changeTag: true,
+  //     labelWidth: null,
+  //     tag: 'el-input-number',
+  //     tagIcon: 'number',
+  //     defaultValue: undefined,
+  //     span: 24,
+  //     layout: 'colFormItem',
+  //     required: true,
+  //     regList: [],
+  //     document: 'https://element.eleme.cn/#/zh-CN/component/input-number'
+  //   },
+  //   placeholder: '',
+  //   min: undefined,
+  //   max: undefined,
+  //   step: 1,
+  //   'step-strictly': false,
+  //   precision: undefined,
+  //   'controls-position': '',
+  //   disabled: false
+  // },
   // {
   //   __config__: {
   //     label: '编辑器',
@@ -163,7 +168,8 @@ export const selectComponents = [
       required: true,
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/select'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/select',
+      document: ''
     },
     __slot__: {
       options: [{
@@ -181,52 +187,52 @@ export const selectComponents = [
     filterable: false,
     multiple: false
   },
-  {
-    __config__: {
-      label: '级联选择',
-      url: 'https://www.fastmock.site/mock/f8d7a54fb1e60561e2f720d5a810009d/fg/cascaderList',
-      method: 'get',
-      dataPath: 'list',
-      dataConsumer: 'options',
-      showLabel: true,
-      labelWidth: null,
-      tag: 'el-cascader',
-      tagIcon: 'cascader',
-      layout: 'colFormItem',
-      defaultValue: [],
-      dataType: 'dynamic',
-      span: 24,
-      required: true,
-      regList: [],
-      changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/cascader'
-    },
-    options: [{
-      id: 1,
-      value: 1,
-      label: '选项1',
-      children: [{
-        id: 2,
-        value: 2,
-        label: '选项1-1'
-      }]
-    }],
-    placeholder: '请选择',
-    style: { width: '100%' },
-    props: {
-      props: {
-        multiple: false,
-        label: 'label',
-        value: 'value',
-        children: 'children'
-      }
-    },
-    'show-all-levels': true,
-    disabled: false,
-    clearable: true,
-    filterable: false,
-    separator: '/'
-  },
+  // {
+  //   __config__: {
+  //     label: '级联选择',
+  //     url: 'https://www.fastmock.site/mock/f8d7a54fb1e60561e2f720d5a810009d/fg/cascaderList',
+  //     method: 'get',
+  //     dataPath: 'list',
+  //     dataConsumer: 'options',
+  //     showLabel: true,
+  //     labelWidth: null,
+  //     tag: 'el-cascader',
+  //     tagIcon: 'cascader',
+  //     layout: 'colFormItem',
+  //     defaultValue: [],
+  //     dataType: 'dynamic',
+  //     span: 24,
+  //     required: true,
+  //     regList: [],
+  //     changeTag: true,
+  //     document: 'https://element.eleme.cn/#/zh-CN/component/cascader'
+  //   },
+  //   options: [{
+  //     id: 1,
+  //     value: 1,
+  //     label: '选项1',
+  //     children: [{
+  //       id: 2,
+  //       value: 2,
+  //       label: '选项1-1'
+  //     }]
+  //   }],
+  //   placeholder: '请选择',
+  //   style: { width: '100%' },
+  //   props: {
+  //     props: {
+  //       multiple: false,
+  //       label: 'label',
+  //       value: 'value',
+  //       children: 'children'
+  //     }
+  //   },
+  //   'show-all-levels': true,
+  //   disabled: false,
+  //   clearable: true,
+  //   filterable: false,
+  //   separator: '/'
+  // },
   {
     __config__: {
       label: '单选框组',
@@ -242,7 +248,8 @@ export const selectComponents = [
       regList: [],
       required: true,
       border: false,
-      document: 'https://element.eleme.cn/#/zh-CN/component/radio'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/radio'
+      document: ''
     },
     __slot__: {
       options: [{
@@ -272,7 +279,8 @@ export const selectComponents = [
       regList: [],
       changeTag: true,
       border: false,
-      document: 'https://element.eleme.cn/#/zh-CN/component/checkbox'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/checkbox'
+      document: ''
     },
     __slot__: {
       options: [{
@@ -302,7 +310,8 @@ export const selectComponents = [
       required: true,
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/switch'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/switch'
+      document: ''
     },
     style: {},
     disabled: false,
@@ -348,7 +357,8 @@ export const selectComponents = [
       required: true,
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/time-picker'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/time-picker'
+      document: ''
     },
     placeholder: '请选择',
     style: { width: '100%' },
@@ -373,7 +383,8 @@ export const selectComponents = [
       required: true,
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/time-picker'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/time-picker'
+      document: ''
     },
     style: { width: '100%' },
     disabled: false,
@@ -398,7 +409,8 @@ export const selectComponents = [
       required: true,
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/date-picker'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/date-picker'
+      // document: ''
     },
     placeholder: '请选择',
     type: 'date',
@@ -422,7 +434,8 @@ export const selectComponents = [
       layout: 'colFormItem',
       regList: [],
       changeTag: true,
-      document: 'https://element.eleme.cn/#/zh-CN/component/date-picker'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/date-picker'
+      document: ''
     },
     style: { width: '100%' },
     type: 'daterange',
@@ -494,12 +507,14 @@ export const selectComponents = [
       changeTag: true,
       fileSize: 2,
       sizeUnit: 'MB',
-      document: 'https://element.eleme.cn/#/zh-CN/component/upload'
+      // document: 'https://element.eleme.cn/#/zh-CN/component/upload'
+      document: ''
     },
     __slot__: {
       'list-type': true
     },
-    action: 'https://jsonplaceholder.typicode.com/posts/',
+    // action: 'https://jsonplaceholder.typicode.com/posts/',
+    action: '', //TODO 完善上传接口地址
     disabled: false,
     accept: '',
     name: 'file',

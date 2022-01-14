@@ -203,11 +203,11 @@ export default {
         {
           title: '选择型组件',
           list: selectComponents
-        },
-        {
-          title: '布局型组件',
-          list: layoutComponents
         }
+        // {
+        //   title: '布局型组件',
+        //   list: layoutComponents
+        // }
       ]
     }
   },
@@ -479,16 +479,16 @@ export default {
           'allowedNull': 1,
           'columnLabel': field.__config__.label,
           'columnName': field.__vModel__,
-          'columnType': '',
+          'columnType': 'string',
           'dateFormat': '',
-          'defaultValue': '',
-          'dictSource': 0,
+          'defaultValue': field.__config__.defaultValue || "",
+          'dictSource': field.__config__dictSource,
           'dictType': '',
           'dictValue': '',
-          'htmlType': '',
+          'htmlType': field.tag,
           'id': 0,
           'list': 0,
-          'maxLength': 0,
+          'maxLength': field.maxlength ? field.maxlength : 200,
           'maxValue': 0,
           'minLength': 0,
           'minValue': 0,
@@ -516,7 +516,7 @@ export default {
           console.log(res.msg);
         }
       }).catch(err => console.log(err));
-      // sessionStorage.setItem('BFS_FLOW_PREVIEW_FORM',formConfig)
+      sessionStorage.setItem('BFS_FLOW_PREVIEW_FORM',formConfig)
     }
   }
 }

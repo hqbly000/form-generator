@@ -2,12 +2,13 @@
   <div class="right-board">
     <el-tabs v-model="currentTab" class="center-tabs">
       <el-tab-pane label="组件属性" name="field" />
-      <el-tab-pane label="表单属性" name="form" />
+      <!-- <el-tab-pane label="表单属性" name="form" /> -->
     </el-tabs>
     <div class="field-box">
-      <a class="document-link" target="_blank" :href="documentLink" title="查看组件文档">
+      <!-- Element-UI Docs link -->
+      <!-- <a class="document-link" target="_blank" :href="documentLink" title="查看组件文档">
         <i class="el-icon-link" />
-      </a>
+      </a> -->
       <el-scrollbar class="right-scrollbar">
         <!-- 组件属性 -->
         <el-form v-show="currentTab==='field' && showField" size="small" label-width="90px">
@@ -31,14 +32,14 @@
               </el-option-group>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="activeData.__vModel__!==undefined" label="字段名">
-            <el-input v-model="activeData.__vModel__" placeholder="请输入字段名（v-model）" />
+          <el-form-item v-if="activeData.__vModel__!==undefined" label="变量名">
+            <el-input v-model="activeData.__vModel__" placeholder="请输入变量名（v-model）" />
           </el-form-item>
           <el-form-item v-if="activeData.__config__.componentName!==undefined" label="组件名">
             {{ activeData.__config__.componentName }}
           </el-form-item>
-          <el-form-item v-if="activeData.__config__.label!==undefined" label="标题">
-            <el-input v-model="activeData.__config__.label" placeholder="请输入标题" @input="changeRenderKey" />
+          <el-form-item v-if="activeData.__config__.label!==undefined" label="变量标签">
+            <el-input v-model="activeData.__config__.label" placeholder="请输入变量标签" @input="changeRenderKey" />
           </el-form-item>
           <el-form-item v-if="activeData.placeholder!==undefined" label="占位提示">
             <el-input v-model="activeData.placeholder" placeholder="请输入占位提示" @input="changeRenderKey" />
@@ -51,10 +52,10 @@
             <el-input v-model="activeData['end-placeholder']" placeholder="请输入占位提示" />
           </el-form-item>
            -->
-          <el-form-item v-if="activeData.__config__.span!==undefined" label="表单栅格">
+          <!-- <el-form-item v-if="activeData.__config__.span!==undefined" label="表单栅格">
             <el-slider v-model="activeData.__config__.span" :max="24" :min="1" :marks="{12:''}" @change="spanChange" />
           </el-form-item>
-         
+          -->
           <el-form-item v-if="activeData.__config__.layout==='rowFormItem'&&activeData.gutter!==undefined" label="栅格间隔">
             <el-input-number v-model="activeData.gutter" :min="0" placeholder="栅格间隔" />
           </el-form-item>
@@ -109,6 +110,16 @@
               placeholder="最多可选"
               @input="$set(activeData, 'max', $event?$event:undefined)"
             />
+          </el-form-item>
+          <el-form-item v-if="activeData.__config__.showDictSource" label="字典来源">
+            <el-select v-model="activeData.__config__.dictSource" placeholder="请选择字典来源" :style="{width: '100%'}">
+              <el-option
+                v-for="(item, index) in dictSourceTypes"
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </el-form-item>
           <!--
           <el-form-item v-if="activeData.__slot__&&activeData.__slot__.prepend!==undefined" label="前缀">
@@ -568,7 +579,7 @@
             </el-tree>
           </template>
 
-          <template v-if="Array.isArray(activeData.__config__.regList)">
+          <!-- <template v-if="Array.isArray(activeData.__config__.regList)">
             <el-divider>正则校验</el-divider>
             <div
               v-for="(item, index) in activeData.__config__.regList"
@@ -590,10 +601,10 @@
                 添加规则
               </el-button>
             </div>
-          </template>
+          </template> -->
         </el-form>
         <!-- 表单属性 -->
-        <el-form v-show="currentTab === 'form'" size="small" label-width="90px">
+        <el-form v-show="false" size="small" label-width="90px">
           <el-form-item label="表单名">
             <el-input v-model="formConf.formRef" placeholder="请输入表单名（ref）" />
           </el-form-item>
@@ -690,6 +701,20 @@ export default {
       dialogVisible: false,
       iconsVisible: false,
       currentIconModel: null,
+      dictSourceTypes: [
+        {
+          label: '本地自建',
+          value: '0'
+        },
+        {
+          label: '固定类型',
+          value: '1'
+        },
+        {
+          label: '外部接口',
+          value: '2'
+        }
+      ],
       dateTypeOptions: [
         {
           label: '日(date)',
@@ -769,7 +794,7 @@ export default {
           label: 'space-between',
           value: 'space-between'
         }
-      ],
+      ],     
       layoutTreeProps: {
         label(data, node) {
           const config = data.__config__
@@ -779,10 +804,15 @@ export default {
     }
   },
   computed: {
+    // documentLink() {
+    //   return (
+    //     this.activeData.__config__.document
+    //     || 'https://element.eleme.cn/#/zh-CN/component/installation'
+    //   )
+    // },
     documentLink() {
       return (
         this.activeData.__config__.document
-        || 'https://element.eleme.cn/#/zh-CN/component/installation'
       )
     },
     dateOptions() {
@@ -829,6 +859,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted(){
+    console.log(this.activeData)
   },
   methods: {
     addReg() {
