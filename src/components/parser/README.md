@@ -15,3 +15,15 @@ yarn add form-gen-parser
 
 示例代码:  
 > [src\components\parser\example\Index.vue](https://github.com/JakHuang/form-generator/blob/dev/src/components/parser/example/Index.vue)
+
+流程节点属性修改
+> [src\components\parser\example\Preview.vue]( )  
+> 
+> [src\components\parser\ParserEditNode.vue]( )
+
+前端控制相关
+> [src\components\parser\example\ParserControl.vue]( )  
+> 
+> [src\components\parser\example\Control.vue]( )
+
+

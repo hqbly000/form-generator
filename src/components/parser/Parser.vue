@@ -1,3 +1,4 @@
+<!-- 通用版本的渲染Parser -->
 <script>
 import { deepClone } from '@/utils/index'
 import render from '@/components/render/render.js'
@@ -30,7 +31,7 @@ const layouts = {
       </el-col>
     )
   },
-  rowFormItem(h, scheme) {    
+  rowFormItem(h, scheme) {
     let child = renderChildren.apply(this, arguments)
     if (scheme.type === 'flex') {
       child = <el-row type={scheme.type} justify={scheme.justify} align={scheme.align}>
@@ -49,6 +50,7 @@ const layouts = {
 
 function renderFrom(h) {
   const { formConfCopy } = this
+
   return (
     <el-row gutter={formConfCopy.gutter}>
       <el-form
@@ -62,13 +64,22 @@ function renderFrom(h) {
         rules={this[formConfCopy.formRules]}
       >
         {renderFormItem.call(this, h, formConfCopy.fields)}
+        {formConfCopy.formBtns && formBtns.call(this, h)}
       </el-form>
     </el-row>
   )
 }
 
+function formBtns(h) {
+  return <el-col>
+    <el-form-item size="large">
+      <el-button type="primary" onClick={this.submitForm}>提交</el-button>
+      <el-button onClick={this.resetForm}>重置</el-button>
+    </el-form-item>
+  </el-col>
+}
+
 function renderFormItem(h, elementList) {
-  if(!elementList) return
   return elementList.map(scheme => {
     const config = scheme.__config__
     const layout = layouts[config.layout]
@@ -88,7 +99,7 @@ function renderChildren(h, scheme) {
 
 function setValue(event, config, scheme) {
   this.$set(config, 'defaultValue', event)
-  this.$set(this.formData, scheme.__vModel__, event)
+  this.$set(this[this.formConf.formModel], scheme.__vModel__, event)
 }
 
 function buildListeners(scheme) {
@@ -119,20 +130,13 @@ export default {
   data() {
     const data = {
       formConfCopy: deepClone(this.formConf),
-      formData: {},
+      [this.formConf.formModel]: {},
+      [this.formConf.formRules]: {}
     }
-    if(Object.keys(this.formConf).length > 0){
-      this.initFormData(data.formConfCopy.fields, data.formData)
-    }
+    this.initFormData(data.formConfCopy.fields, data[this.formConf.formModel])
+    this.buildRules(data.formConfCopy.fields, data[this.formConf.formRules])
     return data
   },
-  watch: {
-    formConf(newConfig){
-      this.formConfCopy = deepClone(newConfig);
-      this.formData =  {};
-      this.initFormData(this.formConfCopy.fields, this.formData)
-    }
-  },  
   methods: {
     initFormData(componentList, formData) {
       componentList.forEach(cur => {
@@ -141,8 +145,39 @@ export default {
         if (config.children) this.initFormData(config.children, formData)
       })
     },
-    getFormData(){
-      return this.formData;
+    buildRules(componentList, rules) {
+      componentList.forEach(cur => {
+        const config = cur.__config__
+        if (Array.isArray(config.regList)) {
+          if (config.required) {
+            const required = { required: config.required, message: cur.placeholder }
+            if (Array.isArray(config.defaultValue)) {
+              required.type = 'array'
+              required.message = `请至少选择一个${config.label}`
+            }
+            required.message === undefined && (required.message = `${config.label}不能为空`)
+            config.regList.push(required)
+          }
+          rules[cur.__vModel__] = config.regList.map(item => {
+            item.pattern && (item.pattern = eval(item.pattern))
+            item.trigger = ruleTrigger && ruleTrigger[config.tag]
+            return item
+          })
+        }
+        if (config.children) this.buildRules(config.children, rules)
+      })
+    },
+    resetForm() {
+      this.formConfCopy = deepClone(this.formConf)
+      this.$refs[this.formConf.formRef].resetFields()
+    },
+    submitForm() {
+      this.$refs[this.formConf.formRef].validate(valid => {
+        if (!valid) return false
+        // 触发sumit事件
+        this.$emit('submit', this[this.formConf.formModel])
+        return true
+      })
     }
   },
   render(h) {

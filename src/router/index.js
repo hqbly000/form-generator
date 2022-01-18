@@ -16,9 +16,19 @@ const routes = [
     component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Index.vue')
   },
   {
-    path: '/preview',
-    name: 'preview',
+    path: '/Preview',
+    name: 'Preview',
     component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Preview.vue')
+  },
+  {
+    path: '/Setting',
+    name: 'setting',
+    component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Setting.vue')
+  },
+  {
+    path: '/control',
+    name: 'control',
+    component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Control.vue')
   },
   {
     path: '/tinymce',

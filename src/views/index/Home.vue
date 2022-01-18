@@ -49,6 +49,9 @@
         <el-button icon="el-icon-video-play" type="text" @click="nextPage">
           下一步
         </el-button>
+        <el-button icon="el-icon-video-play" type="text" @click="mock">
+          下一步
+        </el-button>
         <!-- <el-button icon="el-icon-video-play" type="text" @click="run">
           运行
         </el-button> -->
@@ -469,7 +472,6 @@ export default {
       this.formConf = data
     },
     nextPage() {
-      // TODO 去保存数据
       const submitData = {
         fields: deepClone(this.drawingList),
         ...this.formConf
@@ -517,6 +519,43 @@ export default {
         }
       }).catch(err => console.log(err));
       sessionStorage.setItem('BFS_FLOW_PREVIEW_FORM',formConfig)
+    },
+    mock(){
+      const submitData = {
+        fields: deepClone(this.drawingList),
+        ...this.formConf
+      }
+      const columns = submitData.fields.map(field => {
+        return {
+          'allowedNull': 1,
+          'columnLabel': field.__config__.label,
+          'columnName': field.__vModel__,
+          'columnType': 'string',
+          'dateFormat': '',
+          'defaultValue': field.__config__.defaultValue || "",
+          'dictSource': field.__config__dictSource,
+          'dictType': '',
+          'dictValue': '',
+          'htmlType': field.tag,
+          'id': 0,
+          'list': 0,
+          'maxLength': field.maxlength ? field.maxlength : 200,
+          'maxValue': 0,
+          'minLength': 0,
+          'minValue': 0,
+          'multFile': 0,
+          'multSelect': '',
+          'orderNo': 0,
+          'processDefId': 0,
+          'query': 0,
+          'remark': '',
+          'updatedBy': '',
+          'updatedTime': ''
+        }
+      })
+      // submitData.columns = columns;
+      const formConfig = JSON.stringify(submitData);
+      sessionStorage.setItem('BFS_FLOW_CONTROL_FORM',formConfig)
     }
   }
 }

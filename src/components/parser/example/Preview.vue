@@ -1,14 +1,11 @@
 <template>
   <div class="test-form">
     <parser :form-conf="formConf" @submit="sumbitForm" ref="praser"/>
-    <!-- <el-button type="primary" @click="getFormData">获取数据</el-button> -->
   </div>
 </template>
 
 <script>
 import Parser from "../Parser";
-
-
 
 /**
  * 获得指定范围内的随机数字
@@ -28,8 +25,7 @@ const getRow = () => {
       layout: "rowFormItem",
       tagIcon: "row",
       layoutTree: true,
-      document:
-        "https://element.eleme.cn/#/zh-CN/component/layout#row-attributes",
+      document: "",
       span: 24,
       formId: 0,
       renderKey: getRandomNum(),
@@ -39,66 +35,6 @@ const getRow = () => {
     type: "default",
     justify: "start",
     align: "top"
-  };
-};
-
-const getShowSwitch = (modelName) => {
-  return {
-    __config__: {
-      label: "是否可见",
-      tag: "el-switch",
-      tagIcon: "switch",
-      defaultValue: false,
-      span: 6,
-      showLabel: true,
-      labelWidth: null,
-      layout: "colFormItem",
-      required: false,
-      regList: [],
-      changeTag: true,
-      document: "https://element.eleme.cn/#/zh-CN/component/switch",
-      formId: 0,
-      renderKey: getRandomNum()
-    },
-    style: {},
-    disabled: false,
-    "active-text": "",
-    "inactive-text": "",
-    "active-color": null,
-    "inactive-color": null,
-    "active-value": true,
-    "inactive-value": false,
-    __vModel__: modelName
-  };
-};
-
-const getEditSwitch = (modelName) => {
-  return {
-    __config__: {
-      label: "是否可编辑",
-      tag: "el-switch",
-      tagIcon: "switch",
-      defaultValue: false,
-      span: 6,
-      showLabel: true,
-      labelWidth: null,
-      layout: "colFormItem",
-      required: false,
-      regList: [],
-      changeTag: true,
-      document: "https://element.eleme.cn/#/zh-CN/component/switch",
-      formId: 0,
-      renderKey: getRandomNum()
-    },
-    style: {},
-    disabled: false,
-    "active-text": "",
-    "inactive-text": "",
-    "active-color": null,
-    "inactive-color": null,
-    "active-value": true,
-    "inactive-value": false,
-    __vModel__: modelName
   };
 };
 
@@ -139,9 +75,6 @@ export default {
         let arr = fields.map(field => {
           let row = getRow();
           field["__config__"]["span"] = 12;
-          row.__config__.children.push(clone(field));
-          row.__config__.children.push(getShowSwitch(field.__vModel__ + "Visible"));
-          row.__config__.children.push(getEditSwitch(field.__vModel__ + "Edit"));
           return row;
         });
         formConfig["fields"] = arr;
