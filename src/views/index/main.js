@@ -6,11 +6,13 @@ import '@/icons'
 import axInst from '@/utils/request.js'
 // import axios from '@/utils/axios'
 import Tinymce from '@/components/tinymce/index.vue'
+import * as ExprEval from 'expr-eval';
 
 Vue.component('tinymce', Tinymce)
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axInst
+Vue.prototype.$expr = ExprEval
 
 new Vue({
   router,

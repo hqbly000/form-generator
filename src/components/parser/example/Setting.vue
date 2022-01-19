@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Parser from "../SettingParser";
+import Parser from "../ParserSetting";
 
 /**
  * 获得指定范围内的随机数字
