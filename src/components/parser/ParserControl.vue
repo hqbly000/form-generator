@@ -124,7 +124,7 @@ export default {
     const data = {
       formConfCopy: deepClone(this.formConf),
       formData: {},
-      formDisplay : {}
+      formDisplay : {} //key和FormData相同，控制属性对应的显示/隐藏
     }
     if(Object.keys(this.formConf).length > 0){
       this.initFormData(data.formConfCopy.fields, data.formData)
@@ -158,9 +158,10 @@ export default {
         if (config.children) this.initFormData(config.children, formData)
       })
     },
+    /**
+     * 处理数据变动
+     */
     handleDataChange(data) {
-      console.log("------------receive data-------------");
-      console.log(data);
       if(!this.formControlConf){
         return false;
       }
@@ -169,11 +170,14 @@ export default {
         console.log(con.columnAlias)
         params[con.columnAlias] = data[con.columnName] ? data[con.columnName] : "";
       });
-      console.log(JSON.stringify(params))
       let result =  this.$expr.Parser.evaluate(this.formControlConf.expression , params);
-      console.log(result)
       this.formControlConf.columnControlTargets.forEach(target => {
-        this.formDisplay[target.columnName] = !result;
+        if(this.formControlConf.type == 1){ // 隐藏
+          this.formDisplay[target.columnName] = !result;
+        }else {
+          let field = this.formConfCopy.fields.find(field => field.__vModel__ === target.columnName)
+          field.disabled = result;
+        }
       })
     },
     getFormData(){

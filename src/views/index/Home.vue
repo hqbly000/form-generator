@@ -49,8 +49,8 @@
         <el-button icon="el-icon-video-play" type="text" @click="nextPage">
           下一步
         </el-button>
-        <el-button icon="el-icon-video-play" type="text" @click="mock">
-          下一步
+        <el-button type="text" @click="mock">
+          mock
         </el-button>
         <!-- <el-button icon="el-icon-video-play" type="text" @click="run">
           运行
