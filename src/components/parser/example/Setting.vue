@@ -37,13 +37,13 @@ const getRow = () => {
   };
 };
 
-const getShowSwitch = modelName => {
+const getShowSwitch = (modelName , formData) => {
   return {
     __config__: {
       label: "是否可见",
       tag: "el-switch",
       tagIcon: "switch",
-      defaultValue: false,
+      defaultValue: formData[modelName] ?  true : false,
       span: 6,
       showLabel: true,
       labelWidth: null,
@@ -67,13 +67,13 @@ const getShowSwitch = modelName => {
   };
 };
 
-const getEditSwitch = modelName => {
+const getEditSwitch = (modelName , formData) => {
   return {
     __config__: {
       label: "是否可编辑",
       tag: "el-switch",
       tagIcon: "switch",
-      defaultValue: false,
+      defaultValue: formData[modelName] ?  true : false,
       span: 6,
       showLabel: true,
       labelWidth: null,
@@ -119,39 +119,42 @@ export default {
   mounted() {
     let that = this;
     window.addEventListener("message", function(e) {
+      const req = e.data;
       if (e.data === "getFormData") {
         let res = that.getFormData();
         res && e.source.postMessage("previewSubmit", e.origin);
+      } else if (req.method && req.method === "initCheckedValues") {
+        let formData = {};
+        req.data.forEach(d => {
+          formData[`${d.columnName}Visible`] = d.allowedSee ? true : false;
+          formData[`${d.columnName}Edit`] = d.allowedEdit ? true : false;
+        });
+        // 请求回来的表单数据
+        let cfg = sessionStorage.getItem("BFS_FLOW_PREVIEW_FORM");
+        if (cfg) {
+          let formConfig = JSON.parse(cfg);
+          const fields = formConfig["fields"];
+          let arr = fields.map(field => {
+            let row = getRow();
+            field["__config__"]["span"] = 12;
+            row.__config__.children.push(clone(field));
+            row.__config__.children.push(
+              getShowSwitch(field.__vModel__ + "Visible" , formData)
+            );
+            row.__config__.children.push(
+              getEditSwitch(field.__vModel__ + "Edit" , formData)
+            );
+            return row;
+          });
+          formConfig["fields"] = arr;
+          formConfig["buildRules"] = false;
+          that.sourceConf = fields;
+          that.formConf = formConfig;
+        }
       }
     });
-    // 表单数据回填，模拟异步请求场景
-    setTimeout(() => {
-      // 请求回来的表单数据
-      let cfg = sessionStorage.getItem("BFS_FLOW_PREVIEW_FORM");
-      if (cfg) {
-        let formConfig = JSON.parse(cfg);
-        const fields = formConfig["fields"];
-        let arr = fields.map(field => {
-          let row = getRow();
-          field["__config__"]["span"] = 12;
-          row.__config__.children.push(clone(field));
-          row.__config__.children.push(
-            getShowSwitch(field.__vModel__ + "Visible")
-          );
-          row.__config__.children.push(
-            getEditSwitch(field.__vModel__ + "Edit")
-          );
-          return row;
-        });
-        formConfig["fields"] = arr;
-        formConfig["buildRules"] = false;
-        this.sourceConf = fields;
-        this.formConf = formConfig;
-      }
-      //this.fillFormData(this.formConf, data)
-      // 更新表单
-      this.key2 = +new Date();
-    }, 50);
+    // 更新表单
+    this.key2 = +new Date();
   },
   methods: {
     sumbitForm() {},
@@ -165,7 +168,7 @@ export default {
           allowedEdit: fieldEdit,
           allowedNull: "",
           allowedSee: fieldVisible,
-          columnId: 0,
+          columnId: conf.columnId,
           columnLabel: conf.__config__.label,
           columnName: fieldName,
           defaultValue: "",
