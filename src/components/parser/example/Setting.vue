@@ -186,6 +186,5 @@ export default {
   margin: 15px auto;
   width: 750px;
   padding: 15px;
-  border: 1px solid #f0f0f0;
 }
 </style>

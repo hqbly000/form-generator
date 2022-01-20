@@ -16,24 +16,24 @@ const routes = [
     component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Index.vue')
   },
   {
-    path: '/Preview',
-    name: 'Preview',
-    component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Preview.vue')
+    path: '/tinymce',
+    name: 'tinymce',
+    component: () => import(/* webpackChunkName: "tinymce-example" */'@/components/tinymce/example/Index.vue')
   },
   {
-    path: '/Setting',
+    path: '/preview',
+    name: 'preview',
+    component: () => import(/* webpackChunkName: "parser-preview" */'@/components/parser/example/Preview.vue')
+  },
+  {
+    path: '/setting',
     name: 'setting',
-    component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Setting.vue')
+    component: () => import(/* webpackChunkName: "parser-setting" */'@/components/parser/example/Setting.vue')
   },
   {
     path: '/control',
     name: 'control',
-    component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Control.vue')
-  },
-  {
-    path: '/tinymce',
-    name: 'tinymce',
-    component: () => import(/* webpackChunkName: "tinymce-example" */'@/components/tinymce/example/Index.vue')
+    component: () => import(/* webpackChunkName: "parser-control" */'@/components/parser/example/Control.vue')
   }
 ]
 
