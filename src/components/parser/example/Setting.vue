@@ -141,9 +141,11 @@ export default {
             row.__config__.children.push(
               getShowSwitch(field.__vModel__ + "Visible" , formData)
             );
-            row.__config__.children.push(
-              getEditSwitch(field.__vModel__ + "Edit" , formData)
-            );
+            if(req.nodeType === 'SequenceFlow') { // 只有连接线才有是否编辑
+              row.__config__.children.push(
+                getEditSwitch(field.__vModel__ + "Edit" , formData)
+              );
+            }
             return row;
           });
           formConfig["fields"] = arr;
